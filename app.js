@@ -2,22 +2,27 @@ var app = new Vue({
 	el: "#app",
 	data: {
 		product: "Mugs",
-		image: "./assets/white-mug.jpg",
+		image: "./assets/turquoise-mug.jpg",
 		link: "https://www.amazon.com/s?k=coffee+mugs&ref=nb_sb_noss_2",
-		inStock: true,
+		inStock: false,
 		onSale: true,
 		details: ["clay mineral", "quartz", "silica"],
 		sizes: ["small", "medium", "large", "extra-large"],
 		variants: [
 			{
 				variantId: 2234,
-				variantColor: "white",
-				variantImage: "./assets/white-mug.jpg",
+				variantColor: "turquoise",
+				variantImage: "./assets/turquoise-mug.jpg",
 			},
 			{
 				variantId: 2235,
-				variantColor: "black",
-				variantImage: "./assets/black-mug.jpg",
+				variantColor: "pink",
+				variantImage: "./assets/pink-mug.jpg",
+			},
+			{
+				variantId: 2236,
+				variantColor: "yellow",
+				variantImage: "./assets/yellow-mug.jpg",
 			},
 		],
 		cart: 0,
@@ -26,9 +31,9 @@ var app = new Vue({
 		addToCart() {
 			this.cart += 1;
 		},
-		removeFromCart() {
-			this.cart -= 1;
-		},
+		// removeFromCart() {
+		// 	this.cart -= 1;
+		// },
 		updateProduct(variantImage) {
 			this.image = variantImage;
 		},
