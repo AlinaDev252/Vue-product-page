@@ -12,11 +12,25 @@ var app = new Vue({
 			{
 				variantId: 2234,
 				variantColor: "white",
+				variantImage: "./assets/white-mug.jpg",
 			},
 			{
 				variantId: 2235,
 				variantColor: "black",
+				variantImage: "./assets/black-mug.jpg",
 			},
 		],
+		cart: 0,
+	},
+	methods: {
+		addToCart() {
+			this.cart += 1;
+		},
+		removeFromCart() {
+			this.cart -= 1;
+		},
+		updateProduct(variantImage) {
+			this.image = variantImage;
+		},
 	},
 });
