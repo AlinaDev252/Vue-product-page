@@ -5,7 +5,6 @@ var app = new Vue({
 		brand: "Vue Mastery",
 		selectedVariant: 0,
 		link: "https://www.amazon.com/s?k=coffee+mugs&ref=nb_sb_noss_2",
-		onSale: true,
 		details: ["clay mineral", "quartz", "silica"],
 		sizes: ["small", "medium", "large", "extra-large"],
 		variants: [
@@ -29,6 +28,7 @@ var app = new Vue({
 			},
 		],
 		cart: 0,
+		onSale: true,
 	},
 	methods: {
 		addToCart() {
@@ -51,6 +51,11 @@ var app = new Vue({
 		},
 		inStock() {
 			return this.variants[this.selectedVariant].variantQuantity;
+		},
+		sale() {
+			if (this.onSale) {
+				return this.brand + " " + this.product + " are on sale!";
+			} else return this.brand + " " + this.product + " are not on sale!";
 		},
 	},
 });

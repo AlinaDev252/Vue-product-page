@@ -21,7 +21,7 @@
 						<a :href="link" target="_blank">More products like this</a>
 						<p v-if="inStock">In Stock</p>
 						<p v-else :disabled="!inStock" :class="{outOfStock: !inStock}">Out of Stock</p>
-						<!-- <span v-if="onSale">On Sale!</span> -->
+						<p>{{sale}}</p>
 
 						<ul>
 							<li v-for="detail in details">{{detail}}</li>
@@ -43,7 +43,7 @@
 						<!-- <button v-on:click="removeFromCart">Remove from cart</button> -->
 
 						<div class="cart">
-							<p>{{cart}}</p>
+							<p>Cart{{cart}}</p>
 						</div>
 					</div>
 				</div>
