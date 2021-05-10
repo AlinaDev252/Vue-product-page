@@ -1,42 +1,40 @@
 Vue.component("product", {
 	template: `
-  <div class="product">
-				<div class="product">
-					<div class="product-image">
-						<img :src="image" />
-					</div>
-
-					<div class="product-info">
-						<h1>{{ title }}</h1>
-						<a :href="link" target="_blank">More products like this</a>
-						<p v-if="inStock">In Stock</p>
-               <p>Shipping: {{ shipping }}</p>
-						<p v-else :disabled="!inStock" :class="{outOfStock: !inStock}">Out of Stock</p>
-						<p>{{sale}}</p>
-
-						<ul>
-							<li v-for="detail in details">{{detail}}</li>
-						</ul>
-
-						<!-- <ul>
-							<li v-for="size in sizes">{{size}}</li>
-						</ul> -->
-
-						<div
-							class="color-box"
-							v-for="(variant, index) in variants"
-							:key="variant.variantId"
-							:style="{backgroundColor: variant.variantColor}"
-							@mouseover="updateProduct(index)"
-						></div>
-
-						<button v-on:click="addToCart" :disabled="!inStock" :class="{disabledButton: !inStock}">Add to cart</button>
-						<!-- <button v-on:click="removeFromCart">Remove from cart</button> -->
-
-					</div>
-				</div>
-			</div>
-  </div>
+       <div class="product">
+          
+        <div class="product-image">
+          <img :src="image" />
+        </div>
+  
+        <div class="product-info">
+            <h1>{{ product }}</h1>
+            <p v-if="inStock">In Stock</p>
+            <p v-else>Out of Stock</p>
+            <p>Shipping: {{ shipping }}</p>
+  
+            <ul>
+              <li v-for="detail in details">{{ detail }}</li>
+            </ul>
+  
+            <div class="color-box"
+                 v-for="(variant, index) in variants" 
+                 :key="variant.variantId"
+                 :style="{ backgroundColor: variant.variantColor }"
+                 @mouseover="updateProduct(index)"
+                 >
+            </div> 
+  
+            <button v-on:click="addToCart" 
+              :disabled="!inStock"
+              :class="{ disabledButton: !inStock }"
+              >
+            Add to cart
+            </button>
+  
+         </div> 
+         <product-review @review-submitted="addReview"></product-review>
+      
+      </div>
   `,
 	props: {
 		premium: {
@@ -72,8 +70,8 @@ Vue.component("product", {
 					variantQuantity: 5,
 				},
 			],
-			cart: [],
-			onSale: true,
+			// onSale: true,
+			reviews: [],
 		};
 	},
 	methods: {
@@ -87,6 +85,9 @@ Vue.component("product", {
 			this.selectedVariant = index;
 			console.log(index);
 		},
+		addReview(productReview) {
+			this.reviews.push(productReview);
+		},
 	},
 	computed: {
 		title() {
@@ -98,18 +99,70 @@ Vue.component("product", {
 		inStock() {
 			return this.variants[this.selectedVariant].variantQuantity;
 		},
-		sale() {
-			if (this.onSale) {
-				return this.brand + " " + this.product + " are on sale!";
-			}
-			return this.brand + " " + this.product + " are not on sale!";
-		},
+		// sale() {
+		// 	if (this.onSale) {
+		// 		return this.brand + " " + this.product + " are on sale!";
+		// 	}
+		// 	return this.brand + " " + this.product + " are not on sale!";
+		// },
 		shipping() {
 			if (this.premium) {
 				return "Free";
 			} else {
 			}
 			return 2.99 + " USD";
+		},
+	},
+});
+
+Vue.component("product-review", {
+	template: `
+  <form class="review-form" @submit.prevent="onSubmit">
+      <p>
+        <label for="name">Name:</label>
+        <input id="name" v-model="name" placeholder="name">
+      </p>
+      
+      <p>
+        <label for="review">Review:</label>      
+        <textarea id="review" v-model="review"></textarea>
+      </p>
+      
+      <p>
+        <label for="rating">Rating:</label>
+        <select id="rating" v-model.number="rating">
+          <option>5</option>
+          <option>4</option>
+          <option>3</option>
+          <option>2</option>
+          <option>1</option>
+        </select>
+      </p>
+          
+      <p>
+        <input type="submit" value="Submit">  
+      </p>    
+    
+    </form>
+  `,
+	data() {
+		return {
+			name: null,
+			review: null,
+			rating: null,
+		};
+	},
+	methods: {
+		onSubmit() {
+			let productReview = {
+				name: this.name,
+				review: this.review,
+				rating: this.rating,
+			};
+			this.$emit("review-submitted", productReview);
+			this.name = null;
+			this.review = null;
+			this.rating = null;
 		},
 	},
 });
